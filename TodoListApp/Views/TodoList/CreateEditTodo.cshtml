@@ -1,0 +1,75 @@
+﻿@model TodoListApp.Models.Todo
+
+@{
+    ViewData["Title"] = "Create / Edit Todo";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">@((Model.Id == 0) ? "Create New Todo" : "Edit Todo")</h2>
+
+    <form asp-action="CreateEditTodoForm" method="post" asp-controller="TodoList">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Title -->
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- Due Date -->
+        <div class="mb-3">
+            <label asp-for="DueDate" class="form-label"></label>
+            <input asp-for="DueDate" class="form-control" type="date" />
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+
+        <!-- Priority -->
+        <div class="mb-3">
+            <label asp-for="Priority" class="form-label"></label>
+            <select asp-for="Priority" class="form-select"
+                    asp-items="Html.GetEnumSelectList<TodoListApp.Models.Priority>()">
+                <option value="">-- Select Priority --</option>
+            </select>
+            <span asp-validation-for="Priority" class="text-danger"></span>
+        </div>
+
+        <!-- Status -->
+        <div class="mb-3">
+            <label asp-for="Status" class="form-label"></label>
+            <select asp-for="Status" class="form-select"
+                    asp-items="Html.GetEnumSelectList<TodoListApp.Models.TodoStatus>()">
+                <option value="">-- Select Status --</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label asp-for="Category" class="form-label"></label>
+            <input asp-for="Category" class="form-control" />
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <!-- Is Completed -->
+        <div class="form-check mb-3">
+            <input asp-for="IsCompleted" class="form-check-input" />
+            <label asp-for="IsCompleted" class="form-check-label"></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
